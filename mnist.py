@@ -21,16 +21,15 @@ data_loader = DataLoader(
     batch_size=batch_size, shuffle=True
 )
 
-import pdb
-pdb.set_trace()
-
 z_dim = 128
 gan = GAN(
     gen_fn=gen.generator(28, 28, 1, z_dim),
-    disc_fn=disc.discriminator(28, 28, 1, 1),
+    disc_fn=disc.discriminator(28, 28, 1, 1,
+                               out_nonlinearity='sigmoid'),
     z_dim=z_dim,
     opt_d_args={'lr': 2e-4, 'betas': (0.5, 0.999)},
     opt_g_args={'lr': 2e-4, 'betas': (0.5, 0.999)},
+    dnorm=10.
 )
 
 gan.train(itr=data_loader, epochs=200,

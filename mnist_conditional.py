@@ -21,11 +21,13 @@ z_dim = 128
 y_dim = 10
 gan = CGAN(
     gen_fn=gen_conditional.generator(28, 28, 1, z_dim, y_dim),
-    disc_fn=disc_conditional.discriminator(28, 28, 1, 1, y_dim),
+    disc_fn=disc_conditional.discriminator(28, 28, 1, 1, y_dim,
+                                           out_nonlinearity='sigmoid'),
     z_dim=z_dim,
     opt_d_args={'lr': 2e-4, 'betas': (0.5, 0.999)},
     opt_g_args={'lr': 2e-4, 'betas': (0.5, 0.999)},
-    y_dim=y_dim
+    y_dim=y_dim,
+    dnorm=10.
 )
 
 gan.train(itr=data_loader, epochs=200,
